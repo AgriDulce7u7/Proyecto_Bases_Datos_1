@@ -1,0 +1,11 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"><modelVersion>4.0.0</modelVersion>
+<groupId>agencia</groupId><artifactId>agencia-viajes</artifactId><version>1.0</version>
+<properties><maven.compiler.release>17</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+<dependencies>
+<dependency><groupId>org.openjfx</groupId><artifactId>javafx-controls</artifactId><version>21.0.2</version></dependency>
+<dependency><groupId>org.openjfx</groupId><artifactId>javafx-swing</artifactId><version>21.0.2</version></dependency>
+<dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><version>8.3.0</version></dependency>
+<dependency><groupId>com.github.librepdf</groupId><artifactId>openpdf</artifactId><version>1.3.43</version></dependency>
+</dependencies>
+<build><plugins><plugin><groupId>org.openjfx</groupId><artifactId>javafx-maven-plugin</artifactId><version>0.0.8</version>
+<configuration><mainClass>agencia.App</mainClass></configuration></plugin></plugins></build></project>
