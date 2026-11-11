@@ -70,8 +70,9 @@ public class Pdf {
     }
 
     static final String FACT_SQL = "SELECT f.numero, f.fecha, f.total, r.id_reserva, r.fecha_viaje, c.cedula, CONCAT(c.nombres,' ',c.apellidos) AS cliente, c.email, "
-            + "p.nombre AS paquete, CONCAT(a.nombres,' ',a.apellidos) AS asesor FROM Factura f JOIN Reserva r USING(id_reserva) "
+            + "p.nombre AS paquete, e.nombre AS estado, CONCAT(a.nombres,' ',a.apellidos) AS asesor FROM Factura f JOIN Reserva r USING(id_reserva) "
             + "JOIN Cliente c ON c.cedula=r.cedula_cliente JOIN PaqueteTuristico p ON p.id_paquete=r.id_paquete "
+            + "JOIN EstadoReserva e ON e.id_estado_reserva=r.id_estado_reserva "
             + "JOIN Asesor a ON a.cedula=r.cedula_asesor WHERE f.id_reserva=?";
 
     // Si la reserva no tiene factura, se genera automáticamente (cualquier estado de reserva)
@@ -88,7 +89,7 @@ public class Pdf {
         var x = l.get(0);
         doc(f, "Factura de venta " + s(x, "numero"), new String[][]{
             {"Cliente", s(x, "cliente")}, {"Cédula", s(x, "cedula")}, {"Email", s(x, "email")}, {"Reserva", "#" + s(x, "id_reserva")},
-            {"Paquete", s(x, "paquete")}, {"Fecha de viaje", s(x, "fecha_viaje")}, {"Asesor", s(x, "asesor")}, {"Fecha de emisión", s(x, "fecha")}
+            {"Paquete", s(x, "paquete")}, {"Fecha de viaje", s(x, "fecha_viaje")}, {"Estado de la reserva", s(x, "estado")}, {"Asesor", s(x, "asesor")}, {"Fecha de emisión", s(x, "fecha")}
         }, x.get("total"));
     }
 
