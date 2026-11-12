@@ -80,7 +80,7 @@ public class App extends Application {
         st.centerOnScreen();
     }
 
-    // ---------- utilidades ----------
+    //Utilidades
     static void fill(TableView<Map<String, Object>> tv, List<Map<String, Object>> rows) {
         tv.getColumns().clear();
         if (!rows.isEmpty()) for (String k : rows.get(0).keySet()) {

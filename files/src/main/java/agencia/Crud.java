@@ -26,7 +26,6 @@ public class Crud extends BorderPane {
     static final String DEST = "SELECT d.id_destino, CONCAT(c.nombre,', ',p.nombre) FROM Destino d JOIN Ciudad c USING(id_ciudad) "
             + "JOIN Departamento dp USING(id_departamento) JOIN Pais p USING(id_pais)";
 
-    // Las 4 tablas core. Tipo: text | number | date | password | SELECT ... (lista desplegable)
     static final Cfg[] ALL = {
         new Cfg("Cliente", "cedula", "Clientes", false, null,
             f("cedula", "Cédula", "digits"), f("nombres", "Nombres", "text"), f("apellidos", "Apellidos", "text"),
@@ -88,7 +87,6 @@ public class Crud extends BorderPane {
         } catch (Exception e) { App.error(e); }
     }
 
-    // Desactiva en el calendario las fechas fuera del rango [min, max]
     static Callback<DatePicker, DateCell> lim(Supplier<LocalDate> min, Supplier<LocalDate> max) {
         return p -> new DateCell() {
             @Override public void updateItem(LocalDate d, boolean e) {
@@ -132,15 +130,15 @@ public class Crud extends BorderPane {
                     dp.setEditable(false);
                     if (cur != null) dp.setValue(LocalDate.parse(cur.toString()));
                     switch (c[0]) {
-                        case "fecha_nacimiento":   // mayor de 18 años
+                        case "fecha_nacimiento":   //Mayor de 18 años
                             dp.setDayCellFactory(lim(() -> hoy.minusYears(100), () -> hoy.minusYears(18)));
                             if (cur == null) dp.setValue(hoy.minusYears(18));
                             break;
-                        case "fecha_reserva": case "fecha":   // fecha de hoy, no editable
+                        case "fecha_reserva": case "fecha":   //Fecha de hoy, no editable
                             if (!edit) dp.setValue(hoy);
                             dp.setDisable(true);
                             break;
-                        case "fecha_viaje":   // posterior a la fecha de reserva
+                        case "fecha_viaje":   //Posterior a la fecha de reserva
                             dp.setDayCellFactory(lim(() -> {
                                 var r = (DatePicker) ctl.get("fecha_reserva");
                                 return (r == null || r.getValue() == null ? hoy : r.getValue()).plusDays(1);
@@ -168,7 +166,6 @@ public class Crud extends BorderPane {
         } catch (Exception e) { App.error(e); return; }
         d.getDialogPane().setContent(g);
         d.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        // El formulario solo se cierra si las validaciones y el guardado salen bien
         ((Button) d.getDialogPane().lookupButton(ButtonType.OK)).addEventFilter(ActionEvent.ACTION, ev -> {
             String err = validar(edit, ctl);
             if (err == null) err = guardar(edit, row, ctl);
@@ -196,7 +193,7 @@ public class Crud extends BorderPane {
             if (x == null) continue;
             Object v = val(x);
             if (v == null) {
-                if (edit && c[2].equals("password")) continue;   // al editar, vacío = no cambiar
+                if (edit && c[2].equals("password")) continue; 
                 return "El campo \"" + c[1] + "\" es obligatorio.";
             }
             String s = v.toString();
@@ -214,7 +211,7 @@ public class Crud extends BorderPane {
         return null;
     }
 
-    // Devuelve null si guardó bien, o el mensaje de error
+
     String guardar(boolean edit, Map<String, Object> row, Map<String, Control> ctl) {
         List<String> names = new ArrayList<>();
         List<Object> vals = new ArrayList<>();
@@ -240,7 +237,7 @@ public class Crud extends BorderPane {
         }
     }
 
-    // Notificaciones automáticas al crear reservas y pagos
+    //Notificaciones automáticas al crear reservas y pagos
     void notificar(long id, List<String> n, List<Object> v) throws Exception {
         if (cfg.t.equals("Reserva")) {
             Notif.crear((String) v.get(n.indexOf("cedula_cliente")), (int) id, 3, "Su reserva #" + id + " fue registrada para viajar el "

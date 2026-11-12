@@ -23,7 +23,7 @@ INSERT INTO EstadoReserva (nombre) VALUES ('Pendiente'),('Pagada'),('Cancelada')
 INSERT INTO EstadoPago (nombre) VALUES ('Aprobado'),('Pendiente'),('Rechazado');
 INSERT INTO MedioPago (nombre) VALUES ('Tarjeta'),('PSE'),('Transferencia'),('Efectivo');
 
--- Contraseñas: clientes = Cliente123, asesores = Asesor123 (guardadas con SHA-256)
+-- Contraseñas: clientes = Cliente123, asesores = Asesor123
 INSERT INTO Cliente VALUES
 ('1094567821','Laura Valentina','Gómez Ríos','1992-03-14','laura.gomez@gmail.com','lgomez',SHA2('Cliente123',256)),
 ('1004321876','Andrés Felipe','Cardona Marín','1988-07-22','andres.cardona@hotmail.com','acardona',SHA2('Cliente123',256)),

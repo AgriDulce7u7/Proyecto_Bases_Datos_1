@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 
 public class Db {
-    // Ajuste usuario y clave de su MySQL
     static final String URL = "jdbc:mysql://localhost:3306/agencia_viajes?useUnicode=true&characterEncoding=UTF-8";
     static final String USER = "root", PASS = "";
 
@@ -24,7 +23,6 @@ public class Db {
         }
     }
 
-    // Devuelve el id autogenerado (0 si no aplica)
     public static long exec(String sql, Object... a) throws SQLException {
         try (Connection c = DriverManager.getConnection(URL, USER, PASS); PreparedStatement p = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             for (int i = 0; i < a.length; i++) p.setObject(i + 1, a[i]);

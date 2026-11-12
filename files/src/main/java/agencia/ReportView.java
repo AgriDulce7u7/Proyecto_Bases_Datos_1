@@ -13,7 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 public class ReportView extends BorderPane {
-    // n=nivel, t=título, d=descripción, cl/cv=columnas del gráfico (null = sin gráfico), money=columnas en pesos
     static class R {
         String n, t, d, cl, cv, sql; Set<String> money;
         R(String n, String t, String d, String cl, String cv, String money, String sql) {
@@ -24,14 +23,14 @@ public class ReportView extends BorderPane {
     }
 
     static final R[] ALL = {
-        // ---- Simples (una sola tabla) ----
+        //Simples (una sola tabla)
         new R("Simple", "Listado de clientes", "Clientes registrados en la agencia.", null, null, "",
             "SELECT cedula AS Cédula, CONCAT(nombres,' ',apellidos) AS Cliente, email AS Email, fecha_nacimiento AS Nacimiento FROM Cliente ORDER BY apellidos"),
         new R("Simple", "Asesores y salarios", "Asesores ordenados por salario.", null, null, "Salario",
             "SELECT cedula AS Cédula, CONCAT(nombres,' ',apellidos) AS Asesor, fecha_ingreso AS Ingreso, salario AS Salario FROM Asesor ORDER BY salario DESC"),
         new R("Simple", "Catálogo de paquetes", "Paquetes ordenados por precio.", null, null, "Precio",
             "SELECT id_paquete AS Código, nombre AS Paquete, duracion_dias AS Días, precio AS Precio FROM PaqueteTuristico ORDER BY precio DESC"),
-        // ---- Intermedios (multitabla, GROUP BY, HAVING, WHERE) ----
+        //Intermedios (multitabla)
         new R("Intermedio", "Reservas por mes", "Reservas no canceladas y valor vendido mes a mes.", "Mes", "Total", "Total",
             "SELECT DATE_FORMAT(r.fecha_reserva,'%Y-%m') AS Mes, COUNT(*) AS Reservas, SUM(r.valor) AS Total FROM Reserva r "
             + "JOIN EstadoReserva e USING(id_estado_reserva) WHERE e.nombre<>'Cancelada' GROUP BY Mes ORDER BY Mes"),
@@ -47,7 +46,7 @@ public class ReportView extends BorderPane {
             "SELECT CONCAT(a.nombres,' ',a.apellidos) AS Asesor, COUNT(r.id_reserva) AS Reservas, SUM(r.valor) AS Vendido FROM Asesor a "
             + "JOIN Reserva r ON r.cedula_asesor=a.cedula JOIN EstadoReserva e ON e.id_estado_reserva=r.id_estado_reserva "
             + "WHERE e.nombre<>'Cancelada' GROUP BY a.cedula, a.nombres, a.apellidos HAVING COUNT(*)>=1 ORDER BY Vendido DESC"),
-        // ---- Avanzados (subconsultas) ----
+        //Avanzados (subconsultas)
         new R("Avanzado", "Reservas sobre el valor promedio", "Reservas cuyo valor supera el promedio general.", null, null, "Valor",
             "SELECT r.id_reserva AS Reserva, CONCAT(c.nombres,' ',c.apellidos) AS Cliente, p.nombre AS Paquete, r.valor AS Valor FROM Reserva r "
             + "JOIN Cliente c ON c.cedula=r.cedula_cliente JOIN PaqueteTuristico p ON p.id_paquete=r.id_paquete "

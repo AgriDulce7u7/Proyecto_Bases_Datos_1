@@ -31,7 +31,7 @@ public class Pdf {
 
     static String s(Map<String, Object> m, String k) { return String.valueOf(m.get(k)); }
 
-    // Reporte en tabla (con gráfico opcional)
+    //Reporte en tabla
     public static void tabla(File f, String titulo, String desc, List<Map<String, Object>> rows, Set<String> money, byte[] img) throws Exception {
         Document d = new Document(PageSize.A4);
         PdfWriter.getInstance(d, new FileOutputStream(f));
@@ -51,7 +51,7 @@ public class Pdf {
         d.close();
     }
 
-    // Plantilla de documento (factura / comprobante)
+    //Plantilla de documento (factura / comprobante)
     static void doc(File f, String titulo, String[][] filas, Object total) throws Exception {
         Document d = new Document(PageSize.A4);
         PdfWriter.getInstance(d, new FileOutputStream(f));
@@ -75,7 +75,7 @@ public class Pdf {
             + "JOIN EstadoReserva e ON e.id_estado_reserva=r.id_estado_reserva "
             + "JOIN Asesor a ON a.cedula=r.cedula_asesor WHERE f.id_reserva=?";
 
-    // Si la reserva no tiene factura, se genera automáticamente (cualquier estado de reserva)
+    //Si la reserva no tiene factura, se genera automáticamente (cualquier estado de reserva)
     public static void factura(File f, int idReserva) throws Exception {
         var l = Db.query(FACT_SQL, idReserva);
         if (l.isEmpty()) {
